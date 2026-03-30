@@ -106,6 +106,52 @@ def add_noise(img):
     noise = np.random.normal(0, 10, img.shape).astype(np.uint8)
     return cv2.add(img, noise)
 
+
+# -----------------------------
+# variant versions draft 
+# -----------------------------
+
+# compression 
+# simulates youtube recompression and network degradation 
+def compress_variants(img):
+    qualities = [90, 60, 30]  # high → medium → low
+
+    out = {}
+    for q in qualities:
+        encode_param = [int(cv2.IMWRITE_JPEG_QUALITY), q]
+        _, encimg = cv2.imencode('.jpg', img, encode_param)
+        out[f"compress_q{q}"] = cv2.imdecode(encimg, 1)
+
+    return out
+
+
+# blur 
+# simulates scaling, smoothing, low quality rendering 
+def blur_variants(img):
+    kernels = [3, 5, 9]
+
+    out = {}
+    for k in kernels:
+        out[f"blur_k{k}"] = cv2.GaussianBlur(img, (k, k), 0)
+
+    return out
+
+# noise 
+# simulates compression artifacts and re-encoding noise 
+def noise_variants(img):
+    sigmas = [5, 15, 30]
+
+    out = {}
+    for s in sigmas:
+        noise = np.random.normal(0, s, img.shape).astype(np.uint8)
+        noisy = cv2.add(img, noise)
+        out[f"noise_s{s}"] = noisy
+
+    return out
+
+
+
+
 # -----------------------------
 # Feature wrapper 
 # -----------------------------
@@ -215,12 +261,19 @@ def main():
             "face_count",
             "symmetry"
         ]
-
+        """
         transforms = {
             **resize_variants(img),
             "compress": compress_image(img),
             "blur": blur_image(img),
             "noise": add_noise(img),
+        }
+        """
+        transforms = {
+            **resize_variants(img),
+            **compress_variants(img),
+            **blur_variants(img),
+            **noise_variants(img),
         }
 
         for name, transformed_img in transforms.items():
@@ -233,6 +286,7 @@ def main():
                 diff = abs(original[key] - transformed[key])
 
                 results.append({
+                    "video_id": row["video_id"],
                     "feature": key,
                     "transformation": name,
                     "difference": diff
