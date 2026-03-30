@@ -1,5 +1,5 @@
 # ThumbnailIQ:  
-A Computer Vision-Based Framework for Evaluating and Ranking YouTube Thumbnails**
+A Computer Vision-Based Framework for Evaluating and Ranking YouTube Thumbnails
 
 ## Overview:  
 
