@@ -86,7 +86,7 @@ def compute_blur(image):
 
 # corners
 def compute_corners(image):
-    corners = cv2.goodFeaturesToTrack(image, 100, 0.01, 10)
+    corners = cv2.goodFeaturesToTrack(image, 800, 0.01, 10)
     return 0 if corners is None else len(corners)
 
 # contrast 
@@ -95,7 +95,7 @@ def compute_contrast(image):
 
 # SIFT keypoints
 def compute_keypoints(image):
-    orb = cv2.ORB_create(nfeatures=500)
+    orb = cv2.ORB_create(nfeatures=5000)
     keypoints = orb.detect(image, None)
     return len(keypoints)
 
