@@ -12,11 +12,17 @@ Unlike approaches that attempt to reverse-engineer YouTube’s ranking system, t
 ## Broad logic flow:
 API ->  URL -> DOWNLOAD -> IMAGE -> CV FEATURES
 
+## Reproducibility 
+The API calls and collects video meta-data based on the past year from the date ran. Therefore, to reproduce the same results as used in my analysis, the user must input a static date of March 30, 2026. 
+
+**System Dependencies** this project uses OCR features via Tesseract OCT 
+install on mac terminal using `brew install tesseract`  
+
 ## How to run:  
 
 **note:** if the order is not specified then API defaults to "relevance"
     this is Youtube's internal ranking most relevant to the search query
-    - 
+    -  
 
 
 ## File Organization: 

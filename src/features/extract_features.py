@@ -218,13 +218,13 @@ def main():
                 "text": text,
                 "text_length": text_length,
                 "text_count": word_count,
-                "text_presence":text_presence
+                "text_presence":text_presence,
                 "face_count": face_count,
                 "symmetry": symmetry,
             })
 
         except Exception as e:
-            print(f"Error processing {path}")
+            print(f"Error processing {path}: {e}")
             continue
 
     feature_df = pd.DataFrame(features)
