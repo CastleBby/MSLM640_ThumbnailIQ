@@ -33,6 +33,22 @@ import cv2
 import numpy as np
 import pandas as pd
 from tqdm import tqdm
+import sys
+import os
+
+sys.path.append(os.path.abspath("."))
+from src.features.extract_features import (
+    compute_edge_density,
+    compute_blur,
+    compute_corners,
+    compute_contrast,
+    compute_keypoints,
+    compute_colorfulness,
+    compute_brightness,
+    compute_entropy,
+    detect_faces,
+    compute_symmetry
+)
 
 INPUT_CSV = "data/raw/metadata_with_paths.csv"
 
