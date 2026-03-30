@@ -1,5 +1,5 @@
 # ThumbnailIQ:
-ThumbnailIQ is a computer vision application designed to perform visual similarity search on YouTube thumbnails using classical feature detection (ORB keypoints).Key Findings:  
+ThumbnailIQ is a computer vision application designed to perform visual similarity search on YouTube thumbnails using classical feature detection (ORB keypoints).  
 
 
 ## Overview:  

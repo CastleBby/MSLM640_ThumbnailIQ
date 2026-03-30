@@ -52,13 +52,13 @@ youtube = build("youtube", "v3", developerKey=API_KEY)
 # Parameters 
 # -----------------------------
 SEARCH_QUERIES = [
-    "highlights",
-    "vlog",
-    "tutorial",
-    "review",
-    "essay"
+    "study with me",
+    "coding set up",
+    "notebook aesthetic",
+    "underconsumption core",
+    "spring trend predictions"
 ]
-MAX_RESULTS = 10   # total videos 
+MAX_RESULTS = 200
 BATCH_SIZE = 50     # max allowed per API call
 # only pull data from videos within the past year
 publishedAfter = (datetime.utcnow() - timedelta(days=365)).isoformat("T") + "Z"
