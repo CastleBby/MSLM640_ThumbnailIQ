@@ -7,6 +7,8 @@ This script collects YouTube video metadata using the YouTube Data API v3.
 It retrieves a dataset of videos based on a user-defined search query and
 stores relevant metadata for downstream computer vision analysis.
 
+Sampling: High-view videos within the past year across multiple content types
+
 Data Collected:
 ---------------
 - video_id: Unique identifier for each video
@@ -56,7 +58,7 @@ SEARCH_QUERIES = [
     "review",
     "essay"
 ]
-MAX_RESULTS = 200   # total videos you want
+MAX_RESULTS = 10   # total videos 
 BATCH_SIZE = 50     # max allowed per API call
 # only pull data from videos within the past year
 publishedAfter = (datetime.utcnow() - timedelta(days=365)).isoformat("T") + "Z"
@@ -64,7 +66,7 @@ publishedAfter = (datetime.utcnow() - timedelta(days=365)).isoformat("T") + "Z"
 # -----------------------------
 # Helper: Search Videos
 # -----------------------------
-def search_videos(query, max_results):
+def search_videos(query, max_results, order_type):
     video_ids = []
     next_page_token = None
 
@@ -73,7 +75,7 @@ def search_videos(query, max_results):
             part="snippet",
             q=query,
             type="video",
-            order="viewCount", # enfore popularity
+            order=order_type, # enfore popularity
             publishedAfter=publishedAfter,
             maxResults=BATCH_SIZE,
             pageToken=next_page_token
@@ -82,6 +84,7 @@ def search_videos(query, max_results):
 
         for item in response["items"]:
             video_ids.append(item["id"]["videoId"])
+        break # test to stop after first API call 
 
         next_page_token = response.get("nextPageToken")
 
@@ -133,8 +136,12 @@ def main():
 
     for query in SEARCH_QUERIES:
         print(f"Query: {query}")
-        ids = search_videos(query, MAX_RESULTS // len(SEARCH_QUERIES))
-        all_video_ids.update(ids)
+        #ids = search_videos(query, MAX_RESULTS // len(SEARCH_QUERIES))
+        high_ids = search_videos(query, MAX_RESULTS // 2, order_type="viewCount")
+        recent_ids = search_videos(query, MAX_RESULTS // 2, order_type="date")
+
+        all_video_ids.update(high_ids)
+        all_video_ids.update(recent_ids)
 
     all_video_ids = list(all_video_ids)
 
