@@ -3,10 +3,17 @@ src/robustness/test_robustness.py
 
 Usage: 
 ------------
-
+This script evaluates the robustness of extracted computer vision features
+under common image transformations. It assesses how stable each feature is
+when thumbnails are subjected to realistic distortions such as resizing,
+compression, blur, and noise.
 
 Data Collected:
 ---------------
+For each image and transformation:
+	- Original feature values
+	- Transformed feature values
+	- Absolute differences between original and transformed features
 
 
 Methodology:
@@ -14,10 +21,11 @@ Methodology:
 
 Inputs:
 ------------
-
+data/raw/metadata_with_paths.csv
 
 Outputs:
 -------
+Printed summary statistics of feature differences by transformation
 
 
 """
@@ -72,15 +80,78 @@ def add_noise(img):
 # Feature wrapper 
 # -----------------------------
 
-def extract_basic_features(img):
+def extract_basic_features(img, video_id=None, views=None):
+    """
+    Extracts full feature set from a single image.
+    Returns a dictionary consistent with features.csv structure.
+    """
+
+    # Convert to grayscale
     gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
 
-    return {
-        "edge_density": compute_edge_density(gray),
-        "blur": compute_blur(gray),
-        "contrast": compute_contrast(gray),
-        "colorfulness": compute_colorfulness(img),
+    # ---- Core features ----
+    edge_density = compute_edge_density(gray)
+    blur = compute_blur(gray)
+    corners = compute_corners(gray)
+    contrast = compute_contrast(gray)
+
+    # ---- Advanced CV features ----
+    keypoints = compute_keypoints(gray)
+    colorfulness = compute_colorfulness(img)
+    brightness = compute_brightness(img)
+    entropy_val = compute_entropy(gray)
+
+    # ---- OCR (compute ONCE) ----
+    try:
+        text = pytesseract.image_to_string(img)
+    except:
+        text = ""
+
+    cleaned_text = text.strip()
+
+    text_length = len(cleaned_text)
+    word_count = len(cleaned_text.split())
+    text_presence = 1 if text_length > 0 else 0
+
+    # ---- Semantic ----
+    face_count = detect_faces(gray)
+
+    # ---- Composition ----
+    symmetry = compute_symmetry(gray)
+
+    # ---- Build output ----
+    feature_dict = {
+        "video_id": video_id,
+
+        # Core
+        "edge_density": edge_density,
+        "blur": blur,
+        "corner_count": corners,
+        "contrast": contrast,
+
+        # Advanced
+        "keypoint_count": keypoints,
+        "colorfulness": colorfulness,
+        "brightness": brightness,
+        "entropy": entropy_val,
+
+        # OCR
+        "text": text,
+        "text_length": text_length,
+        "text_count": word_count,
+        "text_presence": text_presence,
+
+        # Semantic
+        "face_count": face_count,
+
+        # Composition
+        "symmetry": symmetry,
+
+        # Target (optional in robustness)
+        "views": views
     }
+
+    return feature_dict
 
 # -----------------------------
 # Main

@@ -61,7 +61,7 @@ thumbnailIQ/
 ## Important Notes:  
 - Youtue Data API v3  
 10,000 quota units per day for free  
-python scripy `youtube_collecto.py` returns 403 error past quota   
+python scripy `youtube_collector.py` returns 403 error past quota   
 
 - youtube_collector.py 
 API script does not collect data on watch time, click through rate, or impressions. 
