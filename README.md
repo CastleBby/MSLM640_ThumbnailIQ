@@ -1,16 +1,21 @@
 # ThumbnailIQ:  
-A Computer Vision-Based Framework for Evaluating and Ranking YouTube Thumbnails
+This project evaluates how well keypoint-based feature detection (ORB) preserves meaningful visual structure under real-world distortions, and proposes a robustness-based metric to assess whether an image remains visually effective across viewing conditions.
+
+Key Findings:  
+
 
 ## Overview:  
 
-ThumbnailIQ is a computer vision-based application designed to evaluate and rank YouTube thumbnails based on structural clarity, feature richness, and robustness under transformations.  
+In practice, thumbnails are displayed across a wide range of environments—small mobile screens, compressed formats, and varying levels of blur. These conditions can degrade the effectiveness of classical computer vision algorithms.
 
-Unlike approaches that attempt to reverse-engineer YouTube’s ranking system, this project focuses on measurable visual properties such as edge density, corner detection, keypoints, blur, contrast, and text overlays.  
+This project investigates:
+	- How keypoint detection behaves under real-world distortions
+	- How much visual structure is preserved after transformations
+	- Whether keypoint-based representations remain reliable across conditions
 
-**Clarification** “We observe measurable correlations between certain visual features and engagement metrics, though these relationships do not imply causation.”  
 
-## Broad logic flow:
-API ->  URL -> DOWNLOAD -> IMAGE -> CV FEATURES
+## Broad logic flow:  
+API ->  Thumbnail URL -> Download -> Image -> Keypoint Detection -> Transformations -> Robustness Analysis  
 
 ## Reproducibility 
 The API calls and collects video meta-data based on the past year from the date ran. Therefore, to reproduce the same results as used in my analysis, the user must input a static date of March 30, 2026. 
@@ -22,7 +27,6 @@ install on mac terminal using `brew install tesseract`
 
 **note:** if the order is not specified then API defaults to "relevance"
     this is Youtube's internal ranking most relevant to the search query
-    -  
 
 
 ## File Organization: 
