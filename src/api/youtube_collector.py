@@ -84,7 +84,7 @@ def search_videos(query, max_results, order_type):
 
         for item in response["items"]:
             video_ids.append(item["id"]["videoId"])
-        break # test to stop after first API call 
+        # break # test to stop after first API call 
 
         next_page_token = response.get("nextPageToken")
 
@@ -133,6 +133,9 @@ def get_video_details(video_ids):
 def main():
     print("Collecting videos across queries...")
     all_video_ids = set()
+
+    per_query = MAX_RESULTS // len(SEARCH_QUERIES)
+    per_type = per_query // 2
 
     for query in SEARCH_QUERIES:
         print(f"Query: {query}")

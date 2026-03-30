@@ -9,7 +9,14 @@ Unlike approaches that attempt to reverse-engineer YouTube’s ranking system, t
 
 **Clarification** “We observe measurable correlations between certain visual features and engagement metrics, though these relationships do not imply causation.”  
 
+## Broad logic flow:
+API ->  URL -> DOWNLOAD -> IMAGE -> CV FEATURES
+
 ## How to run:  
+
+**note:** if the order is not specified then API defaults to "relevance"
+    this is Youtube's internal ranking most relevant to the search query
+    - 
 
 
 ## File Organization: 
