@@ -1,21 +1,37 @@
-# ThumbnailIQ:  
-This project evaluates how well keypoint-based feature detection (ORB) preserves meaningful visual structure under real-world distortions, and proposes a robustness-based metric to assess whether an image remains visually effective across viewing conditions.
-
-Key Findings:  
+# ThumbnailIQ:
+ThumbnailIQ is a computer vision application designed to perform visual similarity search on YouTube thumbnails using classical feature detection (ORB keypoints).Key Findings:  
 
 
 ## Overview:  
 
-In practice, thumbnails are displayed across a wide range of environments—small mobile screens, compressed formats, and varying levels of blur. These conditions can degrade the effectiveness of classical computer vision algorithms.
+Given a query thumbnail, the system retrieves visually similar thumbnails from a dataset by matching keypoint features. The project also evaluates how well this matching process performs under real-world distortions such as resizing, compression, blur, and noise.
 
-This project investigates:
-	- How keypoint detection behaves under real-world distortions
-	- How much visual structure is preserved after transformations
-	- Whether keypoint-based representations remain reliable across conditions
+This simulates a practical scenario where images are viewed across different devices and quality conditions, testing whether classical computer vision methods remain reliable for visual search tasks.
 
+## Problem: 
+Content creators often want to understand:
+	- What thumbnails look visually similar to theirs
+	- What design patterns are common across videos
+	- How their thumbnail compares stylistically within a dataset
+
+Modern systems (e.g., reverse image search) rely on deep learning, but this project explores:
+
+Can classical computer vision (keypoint-based matching) be used to perform thumbnail similarity search under real-world conditions?
 
 ## Broad logic flow:  
-API ->  Thumbnail URL -> Download -> Image -> Keypoint Detection -> Transformations -> Robustness Analysis  
+
+YouTube API -> Thumbnail URL -> Download -> Image -> Keypoint Detection -> Matching -> Similarity Ranking 
+
+Given an input thumbnail, ThumbnailIQ:
+	1.	Extracts keypoints using ORB
+	2.	Compares the query image to a dataset of thumbnails
+	3.	Computes similarity using keypoint matching
+	4.	Returns the most visually similar thumbnails
+
+Additionally, the system applies real-world transformations to evaluate:
+	- Whether similar images remain detectable under distortion
+	- When and why matching begins to fail
+
 
 ## Reproducibility 
 The API calls and collects video meta-data based on the past year from the date ran. Therefore, to reproduce the same results as used in my analysis, the user must input a static date of March 30, 2026. 
@@ -39,24 +55,31 @@ thumbnailIQ/
 │   ├── raw/
 │   ├── processed/
 │
-├── notebooks/
-│   ├── EDA.ipynb
-│   ├── feature_analysis.ipynb
-│
 ├── src/
-│   ├── api/
+│   ├── data_collection/
+│   │   └── youtube_collector.py
+│
 │   ├── preprocessing/
-│   ├── features/
-│   ├── robustness/
-│   ├── modeling/
-│   ├── evaluation/
+│   │   └── download_thumbnails.py
+│
+│   ├── keypoint_analysis/     
+│   │   ├── extract_keypoints.py
+│   │   ├── transformations.py
+│   │   ├── robustness_test.py
+│   │   └── retention_score.py
+│
+│   ├── visualization/
+│   │   └── visualize_keypoints.py
+│
+├── demo/
+│   └── run_demo.py             
+│
+├── notebooks/
+│   └── analysis.ipynb     
 │
 ├── outputs/
 │   ├── figures/
-│   ├── tables/
-│
-├── app/
-│   ├── interface.py
+│   └── results/
 │
 ├── README.md
 └── requirements.txt
