@@ -18,6 +18,19 @@ For each image and transformation:
 
 Methodology:
 ------------
+	1.	Load dataset containing image paths
+	2.	For each image:
+    a. Extract baseline features using the original image
+    b. Apply a set of transformations:
+	- Resizing to multiple realistic thumbnail sizes
+	- JPEG compression
+	- Gaussian blur
+	- Additive noise
+    c. Extract features from each transformed image
+    d. Compute absolute differences between original and transformed features
+	3.	Aggregate results across all images
+	4.	Compute mean differences per feature and transformation
+	5.	Analyze feature sensitivity and robustness
 
 Inputs:
 ------------
@@ -25,6 +38,7 @@ data/raw/metadata_with_paths.csv
 
 Outputs:
 -------
+"data/processed/robustness_results.csv"
 Printed summary statistics of feature differences by transformation
 
 
@@ -186,6 +200,22 @@ def main():
 
         original = extract_basic_features(img)
 
+        NUMERIC_FEATURES = [
+            "edge_density",
+            "blur",
+            "corner_count",
+            "contrast",
+            "keypoint_count",
+            "colorfulness",
+            "brightness",
+            "entropy",
+            "text_length",
+            "text_count",
+            "text_presence",
+            "face_count",
+            "symmetry"
+        ]
+
         transforms = {
             **resize_variants(img),
             "compress": compress_image(img),
@@ -196,7 +226,10 @@ def main():
         for name, transformed_img in transforms.items():
             transformed = extract_basic_features(transformed_img)
 
-            for key in original:
+            for key in NUMERIC_FEATURES :
+                if original[key] is None or transformed[key] is None:
+                    print(f"skipping {key} due to None value")
+                    continue
                 diff = abs(original[key] - transformed[key])
 
                 results.append({
@@ -206,6 +239,10 @@ def main():
                 })
 
     result_df = pd.DataFrame(results)
+    # Save raw results
+    os.makedirs("data/processed", exist_ok=True)
+    result_df.to_csv("data/processed/robustness_results.csv", index=False)
+
 
     print(result_df.groupby(["feature", "transformation"])["difference"].mean())
 
