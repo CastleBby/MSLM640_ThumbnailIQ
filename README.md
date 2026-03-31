@@ -18,6 +18,46 @@ Modern systems (e.g., reverse image search) rely on deep learning, but this proj
 
 Can classical computer vision (keypoint-based matching) be used to perform thumbnail similarity search under real-world conditions?
 
+## How to run the demo:  
+
+0. All in one script that bypasses steps 1 - 6 
+- user must input path to their image they are testing in "data/raw/images/..."
+
+`bash scripts/run_pipeline.sh data/raw/images/_fXpf-qBca4.jpg`
+
+1. Create and activate a virtual environment:
+
+```bash
+python -m venv venv
+source venv/bin/activate  # Mac/Linux
+```
+
+2. install dependencies
+`pip install -r requirements.txt`
+
+3. data collection 
+```bash
+python src/data_collection/youtube_collector.py
+```
+
+4. download images
+
+```bash
+python src/preprocessing/download_thumbnails.py
+```
+
+5. optional feature extraction
+```bash
+python src/features/extract_features.py
+```
+
+6. run the application 
+run similarity search 
+**user inputs their image here**
+```bash
+python demo/run_similarity.py data/raw/images/<image_name>.jpg
+```
+
 ## Broad logic flow:  
 
 YouTube API -> Thumbnail URL -> Download -> Image -> Keypoint Detection -> Matching -> Similarity Ranking 
