@@ -1,12 +1,17 @@
 # ThumbnailIQ:
-ThumbnailIQ is a computer vision application designed to perform visual similarity search on YouTube thumbnails using classical feature detection (ORB keypoints).  
+ThumbnailIQ is a computer vision application designed to perform visual similarity search on YouTube thumbnails using classical feature detection.  
 
 
 ## Overview:  
 
-Given a query thumbnail, the system retrieves visually similar thumbnails from a dataset by matching keypoint features. The project also evaluates how well this matching process performs under real-world distortions such as resizing, compression, blur, and noise.
+Given a query thumbnail, the system retrieves visually similar thumbnails from a dataset using classical computer vision techniques.
 
-This simulates a practical scenario where images are viewed across different devices and quality conditions, testing whether classical computer vision methods remain reliable for visual search tasks.
+This project investigates how different feature representations impact similarity search performance by comparing three approaches:
+	•	ORB (baseline) — keypoint detection using FAST + BRIEF descriptors
+	•	ORB Hybrid — ORB combined with edge and color similarity
+	•	SIFT Hybrid — SIFT combined with edge and color similarity
+
+Rather than relying on deep learning, this project evaluates how far classical methods can go in approximating visual similarity.
 
 ## Problem: 
 Content creators often want to understand:
@@ -62,16 +67,23 @@ python demo/run_similarity.py data/raw/images/<image_name>.jpg
 
 YouTube API -> Thumbnail URL -> Download -> Image -> Keypoint Detection -> Matching -> Similarity Ranking 
 
-Given an input thumbnail, ThumbnailIQ:
-	1.	Extracts keypoints using ORB
-	2.	Compares the query image to a dataset of thumbnails
-	3.	Computes similarity using keypoint matching
-	4.	Returns the most visually similar thumbnails
+1. ORB (Baseline)
+	•	Uses only keypoint matching
+	•	Fast but produces sparse and unstable matches
 
-Additionally, the system applies real-world transformations to evaluate:
-	- Whether similar images remain detectable under distortion
-	- When and why matching begins to fail
+2. ORB + Edge + Color (Hybrid)
+	•	Combines structural, layout, and color features
+	•	Improves similarity ranking by incorporating global visual cues
 
+3. SIFT + Edge + Color (Hybrid)
+	•	Replaces ORB with SIFT descriptors
+	•	Produces more stable and robust matches, especially under transformations
+
+## Findings:
+	- ORB alone fails to produce meaningful similarity rankings on real-world thumbnails
+	- Hybrid methods significantly improve performance by incorporating layout and color information
+	- SIFT-based hybrid methods outperform ORB-based methods, particularly under rotation and structural variation
+	- Despite improvements, all classical methods struggle to capture semantic similarity, often matching images with similar textures or layouts but different meanings
 
 ## Reproducibility 
 The API calls and collects video meta-data based on the past year from the date ran. Therefore, to reproduce the same results as used in my analysis, the user must input a static date of March 30, 2026. 
@@ -93,7 +105,10 @@ thumbnailIQ/
 │
 ├── data/
 │   ├── raw/
+|   |   └── images/ 
 │   ├── processed/
+|       └── features.csv
+|
 │
 ├── src/
 │   ├── data_collection/
@@ -104,12 +119,7 @@ thumbnailIQ/
 │
 │   ├── keypoint_analysis/     
 │   │   ├── extract_keypoints.py
-│   │   ├── transformations.py
-│   │   ├── robustness_test.py
-│   │   └── retention_score.py
-│
-│   ├── visualization/
-│   │   └── visualize_keypoints.py
+│   │   └── transformations.py
 │
 ├── demo/
 │   └── run_demo.py             
@@ -120,6 +130,14 @@ thumbnailIQ/
 ├── outputs/
 │   ├── figures/
 │   └── results/
+|
+├── scripts/
+|   └── run_pipeline.sh 
+|
+├── project_proposals
+|   ├── original.md
+|   └── updated.md 
+|
 │
 ├── README.md
 └── requirements.txt
