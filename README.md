@@ -31,7 +31,7 @@ Can classical computer vision (keypoint-based matching) be used to perform thumb
 
 0. All in one script that bypasses steps 1 - 6 BUT doesn't launch streamlit front end 
 - user must input path to their image they are testing in "data/raw/images/..."
-
+- to launch the app from start to finish including the frontend follow steps 1 - 8 
 `bash scripts/run_pipeline.sh data/raw/images/_fXpf-qBca4.jpg`
 
 1. Create and activate a virtual environment:
@@ -72,6 +72,8 @@ this allows the user to browse their files and run one image at a time, multiple
 ```bash
 streamlit run app/app.y
 ```
+8. close the streamlit app 
+in VSCode terminal hold "control + c" on the keyboard 
 
 ## Broad logic flow:  
 
