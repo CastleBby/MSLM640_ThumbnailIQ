@@ -23,9 +23,13 @@ Modern systems (e.g., reverse image search) rely on deep learning, but this proj
 
 Can classical computer vision (keypoint-based matching) be used to perform thumbnail similarity search under real-world conditions?
 
+**Disclosure:** AI was utilized to create the frontend streamlit application  
+
+--- 
+
 ## How to run the demo:  
 
-0. All in one script that bypasses steps 1 - 6 
+0. All in one script that bypasses steps 1 - 6 BUT doesn't launch streamlit front end 
 - user must input path to their image they are testing in "data/raw/images/..."
 
 `bash scripts/run_pipeline.sh data/raw/images/_fXpf-qBca4.jpg`
@@ -33,7 +37,7 @@ Can classical computer vision (keypoint-based matching) be used to perform thumb
 1. Create and activate a virtual environment:
 
 ```bash
-python -m venv venv
+python3.11 -m venv venv
 source venv/bin/activate  # Mac/Linux
 ```
 
@@ -42,7 +46,7 @@ source venv/bin/activate  # Mac/Linux
 
 3. data collection 
 ```bash
-python src/data_collection/youtube_collector.py
+python src/api/youtube_collector.py
 ```
 
 4. download images
@@ -61,6 +65,12 @@ run similarity search
 **user inputs their image here**
 ```bash
 python demo/run_similarity.py data/raw/images/<image_name>.jpg
+```
+
+7. run the application with streamlit front end in browser 
+this allows the user to browse their files and run one image at a time, multiple times 
+```bash
+streamlit run app/app.y
 ```
 
 ## Broad logic flow:  
