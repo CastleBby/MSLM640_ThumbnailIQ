@@ -6,22 +6,22 @@ ThumbnailIQ is a computer vision application designed to perform visual similari
 
 Given a query thumbnail, the system retrieves visually similar thumbnails from a dataset using classical computer vision techniques.
 
-This project investigates how different feature representations impact similarity search performance by comparing three approaches:
-	•	ORB (baseline) — keypoint detection using FAST + BRIEF descriptors
-	•	ORB Hybrid — ORB combined with edge and color similarity
-	•	SIFT Hybrid — SIFT combined with edge and color similarity
+This project investigates how different feature representations impact similarity search performance by comparing three approaches:  
+	•	ORB (baseline) — keypoint detection using FAST + BRIEF descriptors  
+	•	ORB Hybrid — ORB combined with edge and color similarity  
+	•	SIFT Hybrid — SIFT combined with edge and color similarity  
 
 Rather than relying on deep learning, this project evaluates how far classical methods can go in approximating visual similarity.
 
 ## Problem: 
-Content creators often want to understand:
-	- What thumbnails look visually similar to theirs
-	- What design patterns are common across videos
-	- How their thumbnail compares stylistically within a dataset
+Content creators often want to understand:  
+	- What thumbnails look visually similar to theirs  
+	- What design patterns are common across videos  
+	- How their thumbnail compares stylistically within a dataset  
 
-Modern systems (e.g., reverse image search) rely on deep learning, but this project explores:
+Modern systems (e.g., reverse image search) rely on deep learning, but this project explores:  
 
-Can classical computer vision (keypoint-based matching) be used to perform thumbnail similarity search under real-world conditions?
+Can classical computer vision (keypoint-based matching) be used to perform thumbnail similarity search under real-world conditions?  
 
 **Disclosure:** AI was utilized to create the frontend streamlit application  
 
@@ -29,10 +29,10 @@ Can classical computer vision (keypoint-based matching) be used to perform thumb
 
 ## How to run the demo:  
 
-0. All in one script that bypasses steps 1 - 6 BUT doesn't launch streamlit front end 
-- user must input path to their image they are testing in "data/raw/images/..."
-- to launch the app from start to finish including the frontend follow steps 1 - 8 
-`bash scripts/run_pipeline.sh data/raw/images/_fXpf-qBca4.jpg`
+0. All in one script that bypasses steps 1 - 6 BUT doesn't launch streamlit front end  
+- user must input path to their image they are testing in "data/raw/images/..."  
+- to launch the app from start to finish including the frontend follow steps 1 - 8  
+`bash scripts/run_pipeline.sh data/raw/images/_fXpf-qBca4.jpg`  
 
 1. Create and activate a virtual environment:
 

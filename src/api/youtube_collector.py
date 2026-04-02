@@ -58,7 +58,7 @@ SEARCH_QUERIES = [
     "underconsumption core",
     "spring trend predictions"
 ]
-MAX_RESULTS = 200
+MAX_RESULTS = 550   # for testing changed from 200 -> 500 resulted in 1631 unique 
 BATCH_SIZE = 50     # max allowed per API call
 # only pull data from videos within the past year
 publishedAfter = (datetime.utcnow() - timedelta(days=365)).isoformat("T") + "Z"
